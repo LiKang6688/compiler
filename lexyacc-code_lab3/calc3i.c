@@ -77,8 +77,8 @@ int ex(nodeType *p) {
             ex(p->opr.op[1]);
              if (p->opr.oper != GCD) 
               {
-	    	printf("\tpop\t%%ebx\n");
-	    	printf("\tpop\t%%eax\n");  
+	    	printf("\tpop\t%%rbx\n");
+	    	printf("\tpop\t%%rax\n");  
 	      } 
                          
             switch(p->opr.oper) {

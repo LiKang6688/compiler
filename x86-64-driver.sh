@@ -37,7 +37,7 @@ printf  "_start:\n"
 
 epilogue_func()
 {
-echo '	movl $1,%eax
+echo '	movl $1,%rax
 	int $0x80'
 }
 
@@ -47,7 +47,7 @@ sFile="lib/$runFile.s"
 
 # Put assembly file  to sFile
 prologue_func > $sFile
-./bin/calc3i.exe < "src/$1" >> $sFile
+./bin/calc3i.exe < "$1" >> $sFile
 epilogue_func  >> $sFile
 
 
