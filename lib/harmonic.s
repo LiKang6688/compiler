@@ -1,11 +1,11 @@
 .data
 
-	a:  .quad
-	b:	.quad
-	c:	.quad
-	d:	.quad
-	e:	.quad
-	f:	.quad
+	a:  .quad 
+	b:	.quad 
+	c:	.quad 
+	d:	.quad 
+	e:	.quad 
+	f:	.quad 
 	g:	.quad
 	h:	.quad
 	i:	.quad
@@ -27,26 +27,17 @@
 	y:	.quad
 	z:	.quad
 
-.text
-.global _main
-_main:
-	pushq	$732
+	 .text
+	.global main
+	pushq	$1000000
+	popq	n
+	pushq	$100000000
+	popq	s
+	pushq	$0
 	popq	a
-	pushq	$2684
-	popq	b
 L000:
-	pushq	a
-	pushq	b
-	popq	%rbx
-	popq	%rax
-	xorq	%rcx, %rcx
-                              	cmpq	%rbx, %rax
-                              	setne	%ch
-                              	pushq	%rcx
-	popq	%rcx
-	jecxz	L001
-	pushq	a
-	pushq	b
+	pushq	n
+	pushq	$0
 	popq	%rbx
 	popq	%rax
 	xorq	%rcx, %rcx
@@ -54,33 +45,44 @@ L000:
                               	setg	%ch
                               	pushq	%rcx
 	popq	%rcx
-	jecxz	L002
+	jecxz	L001
 	pushq	a
-	pushq	b
+	pushq	s
+	pushq	n
 	popq	%rbx
 	popq	%rax
-	subq	 %rbx, %rax
+	cltd
+                              	idivq %rbx
+                              	pushq	%rax
+	popq	%rbx
+	popq	%rax
+	addq	 %rbx, %rax
                               	pushq	%rax
 	popq	a
-	jmp	L003
-L002:
-	pushq	b
-	pushq	a
+	pushq	n
+	pushq	$1
 	popq	%rbx
 	popq	%rax
 	subq	 %rbx, %rax
                               	pushq	%rax
-	popq	b
-L003:
+	popq	n
+	popq	%rbx
+	popq	%rax
 	jmp	L000
 L001:
 	pushq	a
-	pushq	$int
-	call	printf
-	pushq	a
-	pushq	b
-	call gcd
-                        	pushq	%rax
+	pushq	s
+	pushq	$1000
+	popq	%rbx
+	popq	%rax
+	cltd
+                              	idivq %rbx
+                              	pushq	%rax
+	popq	%rbx
+	popq	%rax
+	cltd
+                              	idivq %rbx
+                              	pushq	%rax
 	pushq	$int
 	call	printf
 mov $60, %rax

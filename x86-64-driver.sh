@@ -2,43 +2,45 @@
 #!/bin/sh
 prologue_func()
 {
-printf  "\t.section .data\n\n"
-printf  "\ta:  .long long 8\n"
-printf  "\tb:	.long long 8\n"
-printf  "\tc:	.long long 8\n"
-printf  "\td:	.long long 8\n"
-printf  "\te:	.long long 8\n"
-printf  "\tf:	.long long 8\n"
-printf  "\tg:	.long long 8\n"
-printf  "\th:	.long long 8\n"
-printf  "\ti:	.long long 8\n"
-printf  "\tj:	.long long 8\n"
-printf  "\tk:	.long long 8\n"
-printf  "\tl:	.long long 8\n"
-printf  "\tm:	.long long 8\n"
-printf  "\tn:	.long long 8\n"
-printf  "\to:	.long long 8\n"
-printf  "\tp:	.long long 8\n"
-printf  "\tq:	.long long 8\n"
-printf  "\tr:	.long long 8\n"
-printf  "\ts:	.long long 8\n"
-printf  "\tt:	.long long 8\n"
-printf  "\tu:	.long long 8\n"
-printf  "\tv:	.long long 8\n"
-printf  "\tw:	.long long 8\n"
-printf  "\tx:	.long long 8\n"
-printf  "\ty:	.long long 8\n"
-printf  "\tz:	.long long 8\n\n"
-printf  "\t.section .text\n\n"
-printf  "\tglobal _start\n\n"
-printf  "_start:\n"
+printf  ".data\n\n"
+printf  "\ta:  .quad\n"
+printf  "\tb:	.quad\n"
+printf  "\tc:	.quad\n"
+printf  "\td:	.quad\n"
+printf  "\te:	.quad\n"
+printf  "\tf:	.quad\n"
+printf  "\tg:	.quad\n"
+printf  "\th:	.quad\n"
+printf  "\ti:	.quad\n"
+printf  "\tj:	.quad\n"
+printf  "\tk:	.quad\n"
+printf  "\tl:	.quad\n"
+printf  "\tm:	.quad\n"
+printf  "\tn:	.quad\n"
+printf  "\to:	.quad\n"
+printf  "\tp:	.quad\n"
+printf  "\tq:	.quad\n"
+printf  "\tr:	.quad\n"
+printf  "\ts:	.quad\n"
+printf  "\tt:	.quad\n"
+printf  "\tu:	.quad\n"
+printf  "\tv:	.quad\n"
+printf  "\tw:	.quad\n"
+printf  "\tx:	.quad\n"
+printf  "\ty:	.quad\n"
+printf  "\tz:	.quad\n\n"
+printf  ".text\n"
+printf  ".global _main\n"
+printf  "_main:\n"
 }
 
 
 epilogue_func()
 {
-echo '	movl $1,%rax
-	int $0x80'
+echo 'mov $60, %rax'
+echo 'mov $2, %rdi'
+echo 'sysenter' # the Intel-originated version
+#echo 'syscall'  the AMD-originated version
 }
 
 runFile=$(echo $1 | cut -f 1 -d '.' | cut -f 2 -d '/')
@@ -51,6 +53,8 @@ prologue_func > $sFile
 epilogue_func  >> $sFile
 
 
+# Compile the assembly file with gcc
+gcc -m64 -masm=intel $sFile -o "lib/$runFile"
 
 
 
